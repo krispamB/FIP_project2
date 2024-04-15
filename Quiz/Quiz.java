@@ -6,6 +6,8 @@ import java.util.List;
 public class Quiz {
     private List<Question> questions;
 
+    private List<Integer> answeredQuestions = new ArrayList<>();
+
     public Quiz() {
         questions = new ArrayList<>();
         questions.add(new Question("What is the capital of France?", new String[]{"Paris", "London", "Berlin", "Madrid"}, 0));
@@ -22,7 +24,17 @@ public class Quiz {
     }
 
     public Question getRandomQuestion() {
-        int index = (int) (Math.random() * questions.size());
-        return questions.get(index);
+        return questions.get(getUnAnsweredIndex());
     }
+
+    private int getUnAnsweredIndex() {
+        int index;
+        do {
+            index = (int) (Math.random() * questions.size());
+        } while (answeredQuestions.contains(index));
+
+        answeredQuestions.add(index);
+        return index;
+    }
+
 }
